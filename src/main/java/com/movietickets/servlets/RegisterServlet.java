@@ -2,6 +2,7 @@ package com.movietickets.servlets;
 
 import com.movietickets.model.ErrorMessages;
 import com.movietickets.util.DatabaseConnectionPool;
+import com.movietickets.util.HashPassword;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -48,13 +49,14 @@ public class RegisterServlet extends HttpServlet {
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 request.setAttribute("message", ErrorMessages.USER_ALREADY_EXISTS);
-                response.sendRedirect("register.jsp");
+                System.out.println("User already exists");
+                fail.forward(request, response);
                 return;
             }
         } catch (SQLException e) {
             e.printStackTrace();
             request.setAttribute("message", ErrorMessages.SOMETHING_WENT_WRONG);
-            response.sendRedirect("register.jsp");
+            fail.forward(request, response);
             return;
         }
 
@@ -66,7 +68,7 @@ public class RegisterServlet extends HttpServlet {
 
         if (!emailMatcher.matches()) {
             request.setAttribute("message", ErrorMessages.INVALID_EMAIL);
-            response.sendRedirect("register.jsp");
+            fail.forward(request, response);
             return;
         }
 
@@ -78,17 +80,18 @@ public class RegisterServlet extends HttpServlet {
 
         if (!phoneMatcher.matches()) {
             request.setAttribute("message", ErrorMessages.INVALID_PHONE);
-            response.sendRedirect("register.jsp");
+            fail.forward(request, response);
             return;
         }
 
         System.out.println("Phone valid");
 
         String insert_query= "INSERT INTO user (email, password, fullName, role, phone, profilePic, address) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String hashedPassword = HashPassword.hashPassword(password);
         try {
             PreparedStatement statement = con.prepareStatement(insert_query);
             statement.setString(1, email);
-            statement.setString(2, password);
+            statement.setString(2, hashedPassword);
             statement.setString(3, fullName);
             statement.setString(4, "user");
             statement.setString(5, phone);

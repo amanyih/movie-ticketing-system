@@ -6,84 +6,30 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
+
 <footer class="bg-gray-900" aria-labelledby="footer-heading">
     <h2 id="footer-heading" class="sr-only">Footer</h2>
     <div class="mx-auto max-w-7xl px-6 pb-8 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
-        <div class="xl:grid xl:grid-cols-3 xl:gap-8">
-            <img class="h-7" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Company name">
-            <div class="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-                <div class="md:grid md:grid-cols-2 md:gap-8">
-                    <div>
-                        <h3 class="text-sm font-semibold leading-6 text-white">Solutions</h3>
-                        <ul role="list" class="mt-6 space-y-4">
-                            <li>
-                                <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Marketing</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Analytics</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Commerce</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Insights</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="mt-10 md:mt-0">
-                        <h3 class="text-sm font-semibold leading-6 text-white">Support</h3>
-                        <ul role="list" class="mt-6 space-y-4">
-                            <li>
-                                <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Pricing</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Documentation</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Guides</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">API Status</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="md:grid md:grid-cols-2 md:gap-8">
-                    <div>
-                        <h3 class="text-sm font-semibold leading-6 text-white">Company</h3>
-                        <ul role="list" class="mt-6 space-y-4">
-                            <li>
-                                <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">About</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Blog</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Jobs</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Press</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Partners</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="mt-10 md:mt-0">
-                        <h3 class="text-sm font-semibold leading-6 text-white">Legal</h3>
-                        <ul role="list" class="mt-6 space-y-4">
-                            <li>
-                                <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Claim</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Privacy</a>
-                            </li>
-                            <li>
-                                <a href="#" class="text-sm leading-6 text-gray-300 hover:text-white">Terms</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+        <div class="xl:grid xl:grid-cols-3 xl:gap-20 justify-between">
+            <img class="h-7" src="./images/logo.png" alt="Company name">
+            <div>
+                <h1 class="text-sm font-bold text-white sm:text-sm">
+                    Movie Ticketing System
+                </h1>
+                <p class="mt-8 text-gray-400 text-base leading-6">
+                    Movie Ticketing System is a web application that allows users to book movie tickets online. < br/>
+                    Don't miss out on the latest movies. Book your tickets now!
+                </p>
+
+            </div>
+            <div>
+                <h3 class="text-sm font-semibold leading-5 text-white tracking-wider uppercase">
+                    Contact us
+                </h3>
+                <ul class="mt-8 text-base leading-6 text-gray-400">
+                    <li>+251 912345678</li>
+                    <li>movie@ticket.com</li>
+                </ul>
             </div>
         </div>
         <div class="mt-16 border-t border-white/10 pt-8 sm:mt-20 lg:mt-24 lg:flex lg:items-center lg:justify-between">
@@ -91,8 +37,9 @@
                 <h3 class="text-sm font-semibold leading-6 text-white">Subscribe to our newsletter</h3>
 
 
-                <p class="mt-2 text-sm leading-6 text-gray-300">The latest news, articles, and resources, sent to your
-                    inbox weekly.</p>
+                <p class="mt-2 text-sm leading-6 text-gray-300">
+                    The latest movies, cinemas and more delivered right to your inbox
+                </p>
             </div>
             <form class="mt-6 sm:flex sm:max-w-md lg:mt-0">
                 <label for="email-address" class="sr-only">Email address</label>
@@ -149,7 +96,7 @@
                     </svg>
                 </a>
             </div>
-            <p class="mt-8 text-xs leading-5 text-gray-400 md:order-1 md:mt-0">&copy; 2020 Your Company, Inc. All rights
+            <p class="mt-8 text-xs leading-5 text-gray-400 md:order-1 md:mt-0">&copy; 2024 Movie Booking System, Inc. All rights
                 reserved.</p>
         </div>
     </div>

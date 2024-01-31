@@ -20,6 +20,11 @@ public class CheckOutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        if (request.getSession().getAttribute("user") == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
         String showtimeId = request.getParameter("showtimeId");
 
         Connection con = DatabaseConnectionPool.getConnection();

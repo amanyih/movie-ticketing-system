@@ -12,7 +12,7 @@
 </head>
 <%
     ArrayList<Movie> movies = (ArrayList<Movie>) request.getAttribute("movies");
-    String key =  request.getParameter("key");
+    String key = request.getParameter("key");
 
     if (key == null) {
         key = "";
@@ -35,7 +35,7 @@
                        name="key"
                        class=" rounded-l-lg block w-full p-4 ps-10 text-base text-gray-900 border border-gray-300  bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 h-20"
                        placeholder="Spiderman " required
-                          value=<%=key%>
+                       value=<%=key%>
                 >
                 <button type="submit"
                         class="text-white end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-r-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -57,15 +57,22 @@
 
         <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
 
-            <img class="rounded-t-lg" src=<%= movie.getPosterImage()%> alt=""/>
+            <img class="
+            w-full
+            h-64
+" src=<%= movie.getPosterImage()%> alt=""/>
             <div class="p-5">
 
-                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                <h5 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
                     <%=movie.getTitle()%>
                 </h5>
 
                 <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                    <%=movie.getDescription()%>
+                    <%=
+                    movie.getDescription().length() > 100 ?
+                            movie.getDescription().substring(0, 100) + "..." :
+                            movie.getDescription()
+                    %>
                 </p>
                 <a class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
                    dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

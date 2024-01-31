@@ -6,6 +6,12 @@
     <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+    response.setHeader("Expires", "0");
+    if(session == null || session.getAttribute("user") == null){response.sendRedirect("login.jsp");}
+%>
 
 <%
     String[] tabs = {"My Account", "Edit Profile"};

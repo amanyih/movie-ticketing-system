@@ -17,7 +17,95 @@
         mode = "list";
     }
     boolean isEdit = mode.equals("edit");
+    System.out.println("showtime that's to be edited is " + toBeEditedShowtime);
 %>
+<script>
+    function validate(){
+        let movie = document.getElementById("movie");
+        let cinema = document.getElementById("cinema");
+        let showDate = document.getElementById("showDate");
+        let starttime = document.getElementById("starttime");
+        let endtime = document.getElementById("endtime");
+        let price = document.getElementById("price");
+        let availableSeats = document.getElementById("availableSeats");
+
+        let movieError = document.getElementById("movieError");
+        let cinemaError = document.getElementById("cinemaError");
+        let showDateError = document.getElementById("showDateError");
+        let starttimeError = document.getElementById("starttimeError");
+        let endtimeError = document.getElementById("endtimeError");
+        let priceError = document.getElementById("priceError");
+        let availableSeatsError = document.getElementById("availableSeatsError");
+
+        function resetErrorsExcept(element){
+            if(element !== movie){
+                movieError.innerHTML = "";
+            }
+            if(element !== cinema){
+                cinemaError.innerHTML = "";
+            }
+            if(element !== showDate){
+                showDateError.innerHTML = "";
+            }
+            if(element !== starttime){
+                starttimeError.innerHTML = "";
+            }
+            if(element !== endtime){
+                endtimeError.innerHTML = "";
+            }
+            if(element !== price){
+                priceError.innerHTML = "";
+            }
+            if(element !== availableSeats){
+                availableSeatsError.innerHTML = "";
+            }
+        }
+
+        if(movie.value === ""){
+            movieError.innerHTML = "Please select a movie";
+            resetErrorsExcept(movieError);
+            return false;
+        }
+
+        if(cinema.value === ""){
+            cinemaError.innerHTML = "Please select a cinema";
+            resetErrorsExcept(cinemaError);
+            return false;
+        }
+
+        if(showDate.value === ""){
+            showDateError.innerHTML = "Please select a show date";
+            resetErrorsExcept(showDateError);
+            return false;
+        }
+
+        if(starttime.value === ""){
+            starttimeError.innerHTML = "Please select a start time";
+            resetErrorsExcept(starttime);
+            return false;
+        }
+
+        if(endtime.value === ""){
+            endtimeError.innerHTML = "Please select an end time";
+            resetErrorsExcept(endtime);
+            return false;
+        }
+
+        if(price.value === ""){
+            priceError.innerHTML = "Please enter a price";
+            resetErrorsExcept(price);
+            return false;
+        }
+
+        if (availableSeats.value === ""){
+            availableSeatsError.innerHTML = "Please enter available seats";
+            return false;
+        }
+
+        return true;
+    }
+
+</script>
 <div class="flex gap-4 w-full">
     <div class="px-4 sm:px-6 lg:px-8 w-2/3">
         <div class="sm:flex sm:items-center">
@@ -93,7 +181,7 @@
         </div>
     </div>
     <div class=" w-1/3 border-l-2 border-gray-200 px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
-        <form action="<%=isEdit? "/dashboard?tab=showtime&mode=edit&showtime="+toBeEditedShowtime.getShowtimeId() : "/dashboard?tab=showtime" %>"
+        <form onsubmit="return validate()" action="<%=isEdit? "/dashboard?tab=showtime&mode=edit&showtime="+toBeEditedShowtime.getShowtimeId() : "/dashboard?tab=showtime" %>"
               method="post">
             <div class=" text-center text-lg font-semibold text-gray-900 sm:text-xl lg:text-2xl mb-4">
                 <%= isEdit ? "Edit Showtime" : "Add Showtime" %>
@@ -114,6 +202,7 @@
 
                         </select>
                     </div>
+                    <p id="movieError" class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"></p>
                 </div>
                 <div class="mt-4">
                     <label for="cinema" class="block text-sm font-medium text-gray-700">Cinema</label>
@@ -131,6 +220,7 @@
 
                         </select>
                     </div>
+                    <p id="cinemaError" class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"></p>
                 </div>
                 <div class="mt-4">
                     <label for="showDate" class="block text-sm font-medium text-gray-700">Show Date</label>
@@ -142,6 +232,7 @@
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
                     </div>
+                    <p id="showDateError" class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"></p>
                 </div>
                 <div class="mt-4">
                     <label for="starttime" class="block text-sm font-medium text-gray-700">Start Time</label>
@@ -152,6 +243,7 @@
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
                     </div>
+                    <p id="starttimeError" class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"></p>
                 </div>
                 <div class="mt-4">
                     <label for="endtime" class="block text-sm font-medium text-gray-700">End Time</label>
@@ -162,6 +254,7 @@
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
                     </div>
+                    <p id="endtimeError" class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"></p>
                 </div>
                 <div class="mt-4">
                     <label for="price" class="block text-sm font-medium text-gray-700">Price</label>
@@ -173,6 +266,7 @@
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
                     </div>
+                    <p id="priceError" class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"></p>
                 </div>
                 <div class="mt-4">
                     <label for="availableSeats" class="block text-sm font-medium text-gray-700">Avaliable Seats</label>
@@ -184,6 +278,7 @@
                                 class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
                     </div>
+                    <p id="availableSeatsError" class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"></p>
                 </div>
 
 

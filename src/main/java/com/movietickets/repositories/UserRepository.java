@@ -94,5 +94,41 @@ public class UserRepository {
         return ps.executeUpdate();
     }
 
+    public int updateUser(int userId, String email, String fullName, String phone, String address) throws SQLException {
+        String sql = "UPDATE user SET email = ?, fullName = ?, phone = ?, address = ? WHERE userId = ?";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, email);
+        ps.setString(2, fullName);
+        ps.setString(3, phone);
+        ps.setString(4, address);
+        ps.setInt(5, userId);
+        return ps.executeUpdate();
+    }
+
+    public User getUser(int id) throws SQLException {
+        String sql = "SELECT * FROM user WHERE userId = ?";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        int userId = rs.getInt("userId");
+        String email = rs.getString("email");
+        String password = rs.getString("password");
+        String fullName = rs.getString("fullName");
+        String role = rs.getString("role");
+        String phone = rs.getString("phone");
+        String profilePic = rs.getString("profilePic");
+        String address = rs.getString("address");
+
+        String sql2 = "SELECT * FROM FavoriteMovies WHERE userId = ?";
+        PreparedStatement ps2 = connection.prepareStatement(sql2);
+        ps2.setInt(1, userId);
+        ResultSet rs2 = ps2.executeQuery();
+        ArrayList<Movie> favoriteMovies = new ArrayList<>();
+
+        User user = new User(userId, email, password, fullName, role, phone, profilePic, address,favoriteMovies);
+        return user;
+    }
+
 
 }

@@ -165,7 +165,7 @@ public class ShowTimeRepository {
 
         String sql = "SELECT * FROM showtime WHERE showtimeId = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setInt(1, 1);
+        ps.setInt(1, showTimeId);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
 

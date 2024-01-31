@@ -15,14 +15,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-@WebServlet(name = "GetCinemasServlet", value = "/GetCinemasServlet")
+@WebServlet("/cinema")
 public class GetCinemasServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Connection connection = DatabaseConnectionPool.getConnection();
         TheaterRepository theaterRepository = new TheaterRepository(connection);
-
-
 
         try {
 

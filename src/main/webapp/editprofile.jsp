@@ -5,19 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+    response.setHeader("Expires", "0");
+%>
+<%
     User user = (User) request.getSession().getAttribute("user");
 %>
 <form class="max-w-[90rem] mx-auto" method="post" action="/UpdateUserServlet">
 
     <div class="mt-10 bg-[#f7f7f7] rounded-2xl p-12 flex gap-12 items-center">
         <div class="aspect-square rounded-full w-[12rem] overflow-hidden">
-            <img src="john-doe.jpg" class="w-full h-full" alt="">
+            <img src="./images/profiletem.jpg" class="w-full h-full" alt="">
         </div>
 
         <div class="flex flex-col gap-4">
             <input
                     type="text"
-                    name="name"
+                    name="fullname"
                     class="text-5xl font-bold text-gray-600 border rounded-xl px-3 py-1 focus:outline-gray-200"
                     value= <%=user.getFullName()%>
             />
@@ -56,7 +61,7 @@
                     name="address"
                     id ="address"
                     class="text-2xl mt-1 font-bold text-gray-600 border rounded-xl px-3 py-2 focus:outline-gray-200"
-                    value= <%=user.getAddress()%>
+                    value= <%=user.getAddress() != null ? user.getAddress() : ""%>
             >
         </div>
     </div>
@@ -66,11 +71,6 @@
                 class="py-3 px-6 font-bold border-2 border-gray-400 text-gray-600 hover:bg-gray-700 hover:text-white rounded-2xl active:bg-gray-800"
         >
             Save Changes
-        </button>
-        <button
-                class="py-3 px-8 font-bold border-2 border-gray-400 text-gray-600 hover:bg-gray-700 hover:text-white rounded-2xl active:bg-gray-800"
-        >
-            Cancel
         </button>
     </div>
 </form>

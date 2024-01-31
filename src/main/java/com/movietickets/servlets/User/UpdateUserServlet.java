@@ -1,5 +1,8 @@
 package com.movietickets.servlets.User;
 
+import com.movietickets.model.User;
+import com.movietickets.repositories.MovieRepository;
+import com.movietickets.repositories.UserRepository;
 import com.movietickets.util.DatabaseConnectionPool;
 
 import javax.servlet.*;
@@ -19,24 +22,25 @@ public class UpdateUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        int userId = Integer.parseInt(request.getParameter("userId"));
+        User user = (User) request.getSession().getAttribute("user");
+        Connection connection = DatabaseConnectionPool.getConnection();
+        MovieRepository movieRepository = new MovieRepository(connection);
+
+        UserRepository userRepository = new UserRepository(connection, movieRepository);
 
         String email = request.getParameter("email");
         String fullname = request.getParameter("fullname");
         String phone = request.getParameter("phone");
-
-        String sql = "UPDATE user SET email = ?, fullname = ?, phone = ? WHERE userId = ?";
-        Connection connection = DatabaseConnectionPool.getConnection();
+        String address = request.getParameter("address");
 
         try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, email);
-            ps.setString(2, fullname);
-            ps.setString(3, phone);
-            ps.setInt(4, userId);
-            int rows = ps.executeUpdate();
+            int rows = userRepository.updateUser(user.getUserId(),email, fullname, phone, address );
             if (rows > 0) {
-                response.sendRedirect("adminDashboard.jsp");
+                User user1 = userRepository.getUser(user.getUserId());
+                request.getSession().setAttribute("user", user1);
+                response.sendRedirect("profile?tab=My%20Account");
+            } else {
+
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

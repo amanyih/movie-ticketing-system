@@ -3,6 +3,7 @@ package com.movietickets.servlets;
 import com.movietickets.model.ErrorMessages;
 import com.movietickets.model.User;
 import com.movietickets.util.DatabaseConnectionPool;
+import com.movietickets.util.HashPassword;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -27,19 +28,19 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
 
 
+
         if (email.isEmpty() || password.isEmpty()) {
             request.setAttribute("message", ErrorMessages.INVALID_EMAIL_OR_PASSWORD);
             response.sendRedirect("login.jsp");
             return;
         }
 
-        String query = "SELECT * FROM user WHERE email = ? AND password = ?";
+        String query = "SELECT * FROM user WHERE email = ?";
         Connection con = DatabaseConnectionPool.getConnection();
 
         try {
             PreparedStatement statement = con.prepareStatement(query);
             statement.setString(1, email);
-            statement.setString(2, password);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 HttpSession session = request.getSession();
@@ -48,22 +49,32 @@ public class LoginServlet extends HttpServlet {
                 String role = rs.getString("role");
                 int userId = (int) rs.getInt("userId");
                 String user_email = rs.getString("email");
-                String user_password = rs.getString("password");
+                String address = rs.getString("address");
+                String profile_picture = rs.getString("profilePic");
+                String hashedPassword = rs.getString("password");
+               if (!HashPassword.verifyPassword(password, hashedPassword)) {
+                   System.out.println("Password is incorrect");
+                   System.out.println("Password: " + password);
+                     System.out.println("Hashed Password: " + hashedPassword);
+                   request.setAttribute("message", ErrorMessages.INVALID_EMAIL_OR_PASSWORD);
+                   request.getRequestDispatcher("login.jsp").forward(request, response);
+                   return;
+                }
 
-                User user = new User(userId, user_email, user_password, fullName, role, phone, null, null, null);
+                User user = new User(userId, user_email, "", fullName, role, phone, profile_picture, address, null);
                 session.setAttribute("user", user);
-                response.sendRedirect("home.jsp");
+                session.setAttribute("success", "Logged in successfully");
+                response.sendRedirect("home");
 
             } else {
                 request.setAttribute("message", ErrorMessages.INVALID_EMAIL_OR_PASSWORD);
-                response.sendRedirect("login.jsp");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
             }
         } catch (SQLException e) {
             e.printStackTrace();
             request.setAttribute("message", ErrorMessages.SOMETHING_WENT_WRONG);
             response.sendRedirect("login.jsp");
         }
-
 
     }
 }

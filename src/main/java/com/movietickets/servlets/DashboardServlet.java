@@ -16,7 +16,8 @@ import java.util.ArrayList;
 public class DashboardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User user = (User) request.getSession().getAttribute("user");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
         if (user == null || !user.getRole().equals("admin")) {
             response.sendRedirect("/login.jsp");
             return;
@@ -38,6 +39,7 @@ public class DashboardServlet extends HttpServlet {
         ShowTimeRepository showTimeRepository = new ShowTimeRepository(connection);
         TheaterRepository theaterRepository = new TheaterRepository(connection);
         GenreRepository genreRepository = new GenreRepository(connection);
+        DeleteRepository deleteRepository = new DeleteRepository(connection);
 
         if (mode.equals("edit")) {
             try {
@@ -59,6 +61,7 @@ public class DashboardServlet extends HttpServlet {
                         request.setAttribute("showtime", showTimeRepository.getShowTime(showtime));
                         resource = "showtime";
                         id = String.valueOf(showtime);
+                        System.out.println("inside dashboard servlet - "+showTimeRepository.getShowTime(showtime));
                         break;
                 }
 
@@ -70,38 +73,38 @@ public class DashboardServlet extends HttpServlet {
                 switch (tab) {
                     case "users":
                         int user2 = Integer.parseInt(request.getParameter("user"));
-                        int rows = userRepository.deleteUser(user2);
+                        int rows = deleteRepository.deleteUser(user2);
                         if (rows > 0) {
-                            request.setAttribute("success", "User deleted successfully");
+                            session.setAttribute("success", "User deleted successfully");
                         } else {
-                            request.setAttribute("error", "Failed to delete user");
+                            session.setAttribute("error", "Failed to delete user");
                         }
                         break;
                     case "movies":
                         int movieToDelete = Integer.parseInt(request.getParameter("movie"));
-                        int deleteMovieRows = movieRepository.deleteMovie(movieToDelete);
+                        int deleteMovieRows = deleteRepository.deleteMovie(movieToDelete);
                         if (deleteMovieRows > 0) {
-                            request.setAttribute("success", "Movie deleted successfully");
+                            session.setAttribute("success", "Movie deleted successfully");
                         } else {
-                            request.setAttribute("error", "Failed to delete movie");
+                            session.setAttribute("error", "Failed to delete movie");
                         }
                         break;
                     case "cinema":
                         int cinemaToDelete = Integer.parseInt(request.getParameter("cinema"));
-                        int deleteCinemaRows = theaterRepository.deleteTheater(cinemaToDelete);
+                        int deleteCinemaRows = deleteRepository.deleteTheater(cinemaToDelete);
                         if (deleteCinemaRows > 0) {
-                            request.setAttribute("success", "Cinema deleted successfully");
+                            session.setAttribute("success", "Cinema deleted successfully");
                         } else {
-                            request.setAttribute("error", "Failed to delete cinema");
+                            session.setAttribute("error", "Failed to delete cinema");
                         }
                         break;
                     case "showtime":
                         int showtimeToDelete = Integer.parseInt(request.getParameter("showtime"));
-                        int deleteShowtimeRows = showTimeRepository.deleteShowTime(showtimeToDelete);
+                        int deleteShowtimeRows = deleteRepository.deleteShowtime(showtimeToDelete);
                         if (deleteShowtimeRows > 0) {
                             request.setAttribute("success", "Showtime deleted successfully");
                         } else {
-                            request.setAttribute("error", "Failed to delete showtime");
+                            session.setAttribute("error", "Failed to delete showtime");
                         }
                         break;
 
@@ -134,15 +137,16 @@ public class DashboardServlet extends HttpServlet {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            session.setAttribute("error","Something Went Wrong");
         }
         request.getRequestDispatcher("/adminDashboard.jsp?tab=" + tab + (mode.equals("edit") ? "&mode=edit&" + resource + "=" + id : "")).forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null || !user.getRole().equals("admin")) {
+       HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        if (user == null || !user.getRole().equals("admin") ) {
             response.sendRedirect("/login.jsp");
             return;
         }
@@ -173,13 +177,13 @@ public class DashboardServlet extends HttpServlet {
                     int capacity = Integer.parseInt(request.getParameter("capacity"));
                     String image = request.getParameter("image");
                     String contatct = request.getParameter("contactInfo");
-                    int theater = Integer.parseInt(request.getParameter("cinema"));
+                    int theater = isEdit ? Integer.parseInt(request.getParameter("cinema")) : 0;
 
                     int rows = isEdit ? theaterRepository.updateTheater(theater, cinemaName, location, capacity, contatct, image, description) : theaterRepository.addTheater(cinemaName, location, capacity, contatct, image, description);
                     if (rows > 0) {
-                        request.setAttribute("success", isEdit ? "Cinema Edited Successfully" : "Cinema added successfully");
+                        session.setAttribute("success", isEdit ? "Cinema Edited Successfully" : "Cinema added successfully");
                     } else {
-                        request.setAttribute("error", isEdit ? "Failed to Edit cinema" : "Failed to add cinema");
+                        session.setAttribute("error", isEdit ? "Failed to Edit cinema" : "Failed to add cinema");
                     }
                     break;
                 case "movies":
@@ -191,15 +195,16 @@ public class DashboardServlet extends HttpServlet {
                     String rating = request.getParameter("rating");
                     String trailerLink = request.getParameter("trailerLink");
                     int duration = Integer.parseInt(request.getParameter("duration"));
-                    int editmovieId = Integer.parseInt(request.getParameter("movie"));
+
+                    int editmovieId = isEdit ? Integer.parseInt(request.getParameter("movie")) : 0;
 
 
                     Movie movie = new Movie(isEdit ? editmovieId : 0, title, movieDescription, new Genre(genreId, ""), releaseDate, duration, rating, movieImage, trailerLink, null);
                     int movieRows = isEdit ? movieRepository.updateMovie(movie) : movieRepository.addMovie(movie);
                     if (movieRows > 0) {
-                        request.setAttribute("success", isEdit ? "Movie Edited Successfully" : "Movie added successfully");
+                        session.setAttribute("success", isEdit ? "Movie Edited Successfully" : "Movie added successfully");
                     } else {
-                        request.setAttribute("error", isEdit ? "Failed to Edit Movie" : "Failed to add movie");
+                        session.setAttribute("error", isEdit ? "Failed to Edit Movie" : "Failed to add movie");
                     }
                     break;
                 case "showtime":
@@ -210,22 +215,23 @@ public class DashboardServlet extends HttpServlet {
                     String endtime = request.getParameter("endtime");
                     int price = Integer.parseInt(request.getParameter("price"));
                     int availableSeats = Integer.parseInt(request.getParameter("availableSeats"));
-                    int editshowtimeId = Integer.parseInt(request.getParameter("showtime"));
+                    int editshowtimeId = isEdit ? Integer.parseInt(request.getParameter("showtime")) : 0;
 
                     int showtimeRows = isEdit ? showTimeRepository.updateShowTime(editshowtimeId, movieId, theaterId, starttime, endtime, availableSeats, price, showtime) : showTimeRepository.addShowTime(movieId, theaterId, starttime, endtime, availableSeats, price, showtime);
 
 
                     if (showtimeRows > 0) {
-                        request.setAttribute("success", isEdit ? "Showtime updated successfully" : "Showtime added successfully");
+                        session.setAttribute("success", isEdit ? "Showtime updated successfully" : "Showtime added successfully");
                     } else {
-                        request.setAttribute("error", isEdit ? "Failed to updated showtime" : "Failed to add showtime");
+                        session.setAttribute("error", isEdit ? "Failed to updated showtime" : "Failed to add showtime");
                     }
                     break;
 
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            session.setAttribute("error","Something Went Wrong");
         }
+
 
         response.sendRedirect("/dashboard?tab=" + tab + "&success=" + request.getAttribute("success"));
 

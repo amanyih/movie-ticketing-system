@@ -95,5 +95,20 @@ public class User {
         this.address = address;
     }
 
+    @Override
+    public String toString() {
+
+            return "User{" +
+                    "userId=" + userId +
+                    ", email='" + email + '\'' +
+                    ", fullName='" + fullName + '\'' +
+                    ", role='" + role + '\'' +
+                    ", phone='" + phone + '\'' +
+                    ", profilePic='" + profilePic + '\'' +
+                    ", address='" + address + '\'' +
+                    ", favoriteMovies=" + favoriteMovies +
+                    '}';
+    }
+
 
 }

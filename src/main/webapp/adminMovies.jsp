@@ -25,6 +25,106 @@
     }
     boolean isEdit = mode.equals("edit");
 %>
+
+<script>
+    function validate(){
+        var title = document.getElementById("title").value;
+        var description = document.getElementById("description").value;
+        var rating = document.getElementById("rating").value;
+        var posterImage = document.getElementById("posterImage").value;
+        var trailerLink = document.getElementById("trailerLink").value;
+        var genre = document.getElementById("genre").value;
+        var duration = document.getElementById("duration").value;
+        var releaseDate = document.getElementById("releaseDate").value;
+
+        var titleError = document.getElementById("titleError");
+        var descriptionError = document.getElementById("descriptionError");
+        var ratingError = document.getElementById("ratingError");
+        var posterImageError = document.getElementById("posterImageError");
+        var trailerLinkError = document.getElementById("trailerLinkError");
+        var genreError = document.getElementById("genreError");
+        var durationError = document.getElementById("durationError");
+        var releaseDateError = document.getElementById("releaseDateError");
+
+        function resetErrorsExcept(error){
+            if(error !== titleError){
+                titleError.innerHTML = "";
+            }
+            if(error !== descriptionError){
+                descriptionError.innerHTML = "";
+            }
+            if(error !== ratingError){
+                ratingError.innerHTML = "";
+            }
+            if(error !== posterImageError){
+                posterImageError.innerHTML = "";
+            }
+            if(error !== trailerLinkError){
+                trailerLinkError.innerHTML = "";
+            }
+            if(error !== genreError){
+                genreError.innerHTML = "";
+            }
+            if(error !== durationError){
+                durationError.innerHTML = "";
+            }
+            if(error !== releaseDateError){
+                releaseDateError.innerHTML = "";
+            }
+        }
+
+        if(title === ""){
+            titleError.innerHTML = "Title is required";
+            resetErrorsExcept(titleError);
+            return false;
+        }
+
+        if(description === ""){
+            descriptionError.innerHTML = "Description is required";
+            resetErrorsExcept(descriptionError);
+            return false;
+        }
+
+        if(rating === ""){
+            ratingError.innerHTML = "Rating is required";
+            resetErrorsExcept(ratingError);
+            return false;
+        }
+
+        if(posterImage === ""){
+            posterImageError.innerHTML = "Poster Image is required";
+            resetErrorsExcept(posterImageError);
+            return false;
+        }
+
+        if(trailerLink === ""){
+            trailerLinkError.innerHTML = "Trailer Link is required";
+            resetErrorsExcept(trailerLinkError);
+            return false;
+        }
+
+        if(genre === ""){
+            genreError.innerHTML = "Genre is required";
+            resetErrorsExcept(genreError);
+            return false;
+        }
+
+        if(duration === ""){
+            durationError.innerHTML = "Duration is required";
+            resetErrorsExcept(durationError);
+            return false;
+        }
+
+        if(releaseDate === ""){
+            releaseDateError.innerHTML = "Release Date is required";
+            resetErrorsExcept(releaseDateError);
+            return false;
+        }
+
+        return true;
+    }
+</script>
+
 <div class="flex gap-4 w-full">
     <div class="px-4 sm:px-6 lg:px-8 w-2/3">
         <div class="sm:flex sm:items-center">
@@ -93,7 +193,7 @@
         </div>
     </div>
    <div class=" w-1/3 border-l-2 border-gray-200 px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
-       <form action="<%=isEdit? "/dashboard?tab=movies&mode=edit&movie="+toBeEditedMovie.getMovieId() : "/dashboard?tab=movies" %>" method="post">
+       <form onsubmit="return validate()" action="<%=isEdit? "/dashboard?tab=movies&mode=edit&movie="+toBeEditedMovie.getMovieId() : "/dashboard?tab=movies" %>" method="post">
            <div class=" text-center text-lg font-semibold text-gray-900 sm:text-xl lg:text-2xl mb-4">
                <%=isEdit ? "Edit Movie" : "Add Movie"%>
            </div>
@@ -106,6 +206,7 @@
                                value="<%=isEdit ? toBeEditedMovie.getTitle() : ""%>"
                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                    </div>
+                   <p id="titleError" class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"></p>
                </div>
                <div class="mt-4">
                    <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
@@ -116,6 +217,7 @@
                            <%=isEdit ? toBeEditedMovie.getDescription() : ""%>
                           </textarea>
                    </div>
+                   <p id="descriptionError" class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"></p>
                </div>
                <div class="mt-4">
                    <label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>
@@ -126,6 +228,7 @@
                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
                    </div>
+                   <p id="ratingError" class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"></p>
                </div>
                <div class="mt-4">
                    <label for="posterImage" class="block text-sm font-medium text-gray-700">Poster Image Link</label>
@@ -136,6 +239,7 @@
                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
                    </div>
+                   <p id="posterImageError" class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"></p>
                </div>
                <div class="mt-4">
                    <label for="trailerLink" class="block text-sm font-medium text-gray-700">Trailer Link</label>
@@ -146,6 +250,7 @@
                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
                    </div>
+                   <p id="trailerLinkError" class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"></p>
                </div>
                <div class="mt-4">
                    <label for="genre" class="block text-sm font-medium text-gray-700">Genre</label>
@@ -161,6 +266,7 @@
                        </select>
 
                    </div>
+                   <p id="genreError" class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"></p>
                </div>
                <div class="mt-4">
                    <label for="duration" class="block text-sm font-medium text-gray-700">Duration</label>
@@ -172,6 +278,7 @@
                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
                    </div>
+                   <p id="durationError" class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"></p>
                </div>
                <div class="mt-4">
                    <label for="releaseDate" class="block text-sm font-medium text-gray-700">Release Date</label>
@@ -183,6 +290,7 @@
                                class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
                    </div>
+                   <p id="releaseDateError" class="mt-2 text-sm text-red-600 dark:text-red-500 font-medium"></p>
                </div>
 
            </div>

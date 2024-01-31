@@ -8,6 +8,13 @@
     <title>Title</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<%
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+    response.setHeader("Expires", "0");
+    System.out.println("Checkout page called");
+    if(session == null || session.getAttribute("user") == null){response.sendRedirect("login.jsp");}
+%>
 <body>
 <%@include file="nav.jsp" %>
 <%

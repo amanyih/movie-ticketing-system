@@ -16,39 +16,6 @@
     }
 
     movie.setTrailerLink(trailerLink);
-
-    //TODO Remove the following.
-//    showtimeId, Movie movie, Theater theater, String startTime, String endTime, int availableSeats, double price,Date showDate, Booking[] bookings
-    showtimes.add(
-            new Showtime(
-                    1,
-                    movie,
-                    new Theater(
-                            1,
-                            "Cineplex",
-                            "Best Cinemea In Town",
-                            "Canada",
-                            50,
-                            "",
-                            "+1 416-123-4567",
-                            null
-                    ),
-                    "12:00",
-                    "14:00",
-                    50,
-                    10.00,
-                    new Date(
-                            2021,
-                            8,
-                            10
-                    ),
-                    null
-
-
-            )
-    )
-    ;
-
 %>
 
 
@@ -74,7 +41,7 @@
             <div
                     style="height: 20rem;"
                     class="overflow-hidden rounded-xl w-max flex-shrink-0">
-                <img src="lotr_poster.jpg" class="h-full" alt="">
+                <img src=<%=movie.getPosterImage()%> class="h-full" alt="">
             </div>
 
             <div class="flex flex-col gap-4 justify-between">
@@ -179,7 +146,7 @@
         <iframe
                 style="height: 40rem;"
                 class="rounded-xl mt-4 w-full"
-                src="https://www.youtube.com/embed/OqGH_6mLQjI?si=u_-s058F4GpYOsrW"
+                src="<%= movie.getTrailerLink() %>"
                 title="YouTube video player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -245,18 +212,10 @@
 
                 <div class="flex gap-4">
                     <div class="text-gray-400 bg-gray-100 px-3 py-1 rounded-xl">
-                        <%= showtime
-                                .
-                                getTheater
-                                        (
-                                        )
-                                        .
-                                getShowtime
-                                        (
-                                        ) %>
+                        Price   
                     </div>
                     <div class="text-gray-400 bg-gray-100 px-3 py-1 rounded-xl">
-                        <%= showtime.getPrice()%>
+                        <%= showtime.getPrice()%> ETB
                     </div>
                 </div>
             </div>

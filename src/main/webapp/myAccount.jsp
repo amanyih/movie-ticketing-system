@@ -7,52 +7,46 @@
     <title>Title</title>
 </head>
 <%
-    User user = (User) request.getSession().getAttribute("user");
+    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    response.setHeader("Pragma", "no-cache");
+    response.setHeader("Expires", "0");
+%>
+<%
+    User userAccount = (User) request.getSession().getAttribute("user");
     ArrayList<Booking> bookings = (ArrayList<Booking>) request.getAttribute("bookings");
 %>
 <body>
 <div class="max-w-[90rem] mx-auto">
     <div class="mt-10 bg-[#f7f7f7] rounded-2xl p-12 flex gap-12 items-center relative">
         <div class="aspect-square rounded-full w-[12rem] overflow-hidden">
-            <img src=<%=!user.getProfilePic().isEmpty() ? user.getProfilePic() : "./images/SpidermanBackground.jps"%>""
+            <img src="./images/profiletem.jpg"
                  class="w-full h-full" alt="">
         </div>
 
         <div>
             <p class="text-5xl font-bold text-gray-600">
-                <%= user.getFullName() %>
+                <%= userAccount.getFullName() %>
             </p>
             <p class="pt-4 text-xl text-gray-400">
-                <%= user.getEmail() %>
+                <%= userAccount.getEmail() %>
             </p>
         </div>
 
-        <div class="
-            absolute
-            top-10
-            right-10
-            flex
-            items-center
-            gap-32
-            p-2
-            cursor-pointer
-            flex flex-col
-            justify-between
-
-
-
-
-">
-            <button type="button"
+        <div class="absolute top-10 right-10 flex items-center gap-32 p-2 cursor-pointer flex flex-col justify-between">
+            <div
                     class="text-white bg-red-400 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 ">
-                Delete Account
-            </button>
+                <a href="/deleteUser">
+                    Delete Account
+                </a>
+            </div>
 
 
-            <button type="button"
+            <div
                     class="text-white bg-blue-400 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 ">
-                Logout
-            </button>
+                <a href="/logout.jsp">
+                    Logout
+                </a>
+            </div>
 
         </div>
 
@@ -65,7 +59,7 @@
                 Phone Number
             </p>
             <p class="text-2xl font-bold text-gray-600">
-                <%= user.getPhone() %>
+                <%= userAccount.getPhone() %>
             </p>
         </div>
 
@@ -74,7 +68,7 @@
                 Address
             </p>
             <p class="text-2xl font-bold text-gray-600">
-                <%= user.getAddress() %>
+                <%=userAccount.getAddress() != null && !userAccount.getAddress().isEmpty() ? userAccount.getAddress() : "Not Specified"%>
             </p>
         </div>
     </div>
@@ -141,6 +135,15 @@
             </div>
             <% } %>
         </div>
+
+        <%if(bookings.size() ==0 ) {%>
+        <div class="bg-white p-8 rounded-2xl">
+            <p class="text-3xl font-bold text-gray-600">
+                No Bookings
+            </p>
+        </div>
+        <%}%>
+
     </div>
 </div>
 

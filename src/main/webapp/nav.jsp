@@ -1,15 +1,30 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-    <script src="https://cdn.tailwindcss.com"></script>
 
-</head>
-<body>
+<%@ page import="com.movietickets.model.User" %>
+<%
+    String cur_page = request.getRequestURI();
 
-<% String cur_page = request.getParameter("page");
+    if (cur_page.contains("home")) {
+        cur_page = "home";
+    } else if (cur_page.contains("cinema")) {
+        cur_page = "cinema";
+    } else if (cur_page.contains("search")) {
+        cur_page = "search";
+    } else if (cur_page.contains("about")) {
+        cur_page = "about";
+    }
 
-    String[] pages = {"home", "cinema", "search", "about"};
+//    System.out.println(cur_page + " " + session.getAttribute("userAccount"));
+
+    User userNav = (User) session.getAttribute("user");
+    boolean isAuthenticated = false;
+    boolean isAdmin = false;
+    if (userNav == null) {
+        isAuthenticated = false;
+        isAdmin = false;
+    } else {
+        isAuthenticated = true;
+        isAdmin = userNav.getRole().equals("admin");
+    }
 %>
 
 <nav class="bg-gray-800">
@@ -27,11 +42,6 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                               d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/>
                     </svg>
-                    <!--
-                      Icon when menu is open.
-
-                      Menu open: "block", Menu closed: "hidden"
-                    -->
                     <svg class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                          aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
@@ -40,41 +50,48 @@
             </div>
             <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div class="flex flex-shrink-0 items-center">
-                    <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                    <img class="h-8 w-auto" src="./images/logo.png"
                          alt="Your Company">
                 </div>
                 <div class="hidden sm:ml-6 sm:block">
                     <div class="flex space-x-4">
-                        <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-
-
-                        <% for (String cur : pages) { %>
-                        <% System.out.println(cur + " but " + cur_page); %>
-                        <% System.out.println(request.getRequestURL().toString()); %>
-
-                        <a href="<%=
-                        cur.equals("search") ? "search" : cur+".jsp"
-                         %>"
-                           class="<%= cur.equals(cur_page) ? "bg-gray-900 text-white" : "text-gray-300 hover:bg-gray-700 hover:text-white" %> px-3 py-2 rounded-md text-sm font-medium">
-                            <%= cur.substring(0, 1).toUpperCase() + cur.substring(1) %>
+                        <a href="home"
+                           class="<%= cur_page.equals("home") ? "bg-gray-900 text-white" : "text-gray-300 hover:bg-gray-700 hover:text-white" %> px-3 py-2 rounded-md text-sm font-medium">
+                            Home
                         </a>
-                        <% } %>
+                        <a href="cinema"
+                           class="<%= cur_page.equals("cinema") ? "bg-gray-900 text-white" : "text-gray-300 hover:bg-gray-700 hover:text-white" %> px-3 py-2 rounded-md text-sm font-medium">
+                            Cinema
+                        </a>
+                        <a href="search"
+                           class="<%= cur_page.equals("search") ? "bg-gray-900 text-white" : "text-gray-300 hover:bg-gray-700 hover:text-white" %> px-3 py-2 rounded-md text-sm font-medium">
+                            Search
+                        </a>
+                        <a href="about"
+                           class="<%= cur_page.equals("about") ? "bg-gray-900 text-white" : "text-gray-300 hover:bg-gray-700 hover:text-white" %> px-3 py-2 rounded-md text-sm font-medium">
+                            About
+                        </a>
                     </div>
                 </div>
             </div>
             <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <button type="button"
-                        class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                <%if (isAdmin) {%>
+                <a type="button"
+                   href="/dashboard"
+                   class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                     <span class="absolute -inset-1.5"></span>
                     <span class="sr-only">View notifications</span>
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                    <svg class="h-6 w-6 shrink-0 text-indigo-200 group-hover:text-white" fill="none"
+                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                          aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round"
-                              d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/>
+                              d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/>
                     </svg>
-                </button>
+                </a>
+                <%}%>
 
                 <!-- Profile dropdown -->
+                <%if (isAuthenticated) {%>
                 <div class="relative ml-3">
                     <div>
                         <a href="profile?tab=My Account">
@@ -83,13 +100,23 @@
                                 <span class="absolute -inset-1.5"></span>
                                 <span class="sr-only">Open user menu</span>
                                 <img class="h-8 w-8 rounded-full"
-                                     src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                     src="<%= userNav.getProfilePic() != null && !userNav.getProfilePic().isEmpty() ? userNav.getProfilePic() : "./images/profiletem.jpg" %>"
                                      alt="">
-
                             </div>
                         </a>
                     </div>
                 </div>
+                <%} else {%>
+                <a href="login.jsp"
+                   class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                    Login
+                </a>
+                <a href="register.jsp"
+                   class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                    Register
+                </a>
+                <%}%>
+
             </div>
         </div>
     </div>
@@ -109,6 +136,3 @@
         </div>
     </div>
 </nav>
-
-</body>
-</html>
