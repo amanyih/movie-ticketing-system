@@ -2,6 +2,7 @@
 <%@ page import="com.movietickets.model.Showtime" %>
 <%@ page import="com.movietickets.model.User" %>
 <%@ page import="com.movietickets.model.Theater" %>
+<%@ page import="java.text.DecimalFormat" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -13,7 +14,12 @@
     response.setHeader("Pragma", "no-cache");
     response.setHeader("Expires", "0");
     System.out.println("Checkout page called");
-    if(session == null || session.getAttribute("user") == null){response.sendRedirect("login.jsp");}
+    if (session == null || session.getAttribute("user") == null) {
+        response.sendRedirect("login.jsp");
+    }
+    DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+    // Format the result to two decimal places
 %>
 <body>
 <%@include file="nav.jsp" %>
@@ -27,7 +33,8 @@
     <div class="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
         <h2 class="sr-only">Checkout</h2>
 
-        <form class="lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16" action="gateway?showtimeId=<%=showtime.getShowtimeId()%>" method="post">
+        <form class="lg:grid lg:grid-cols-2 lg:gap-x-12 xl:gap-x-16"
+              action="gateway?showtimeId=<%=showtime.getShowtimeId()%>" method="post">
             <div>
                 <div>
                     <h2 class="text-lg font-medium text-gray-900">Contact information</h2>
@@ -38,6 +45,7 @@
                             <input
 
                                     type="email" id="email" name="email" autocomplete="email"
+                                    value="<%=user.getEmail()%>"
                                     class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         </div>
                     </div>
@@ -73,6 +81,7 @@
                             <div class="mt-1">
                                 <input type="text" name="phone" id="phone" autocomplete="tel"
                                        value="<%=user.getPhone()%>"
+
                                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             </div>
                         </div>
@@ -127,7 +136,7 @@
                             <label for="expirationdate" class="block text-sm font-medium text-gray-700">Expiration date
                                 (MM/YY)</label>
                             <div class="mt-1">
-                                <input type="text" name="expirationdate" id="expirationdate" autocomplete="cc-exp"
+                                <input type="date" name="expirationdate" id="expirationdate" autocomplete="cc-exp"
                                        class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                             </div>
                         </div>
@@ -172,14 +181,14 @@
                                             1 Ticket
                                         </p>
                                         <p class="mt-1 text-sm text-gray-500">
-                                           <%=showtime.getShowDate() %> At <%=showtime.getStartTime()%>
+                                            <%=showtime.getShowDate() %> At <%=showtime.getStartTime()%>
                                         </p>
                                     </div>
                                 </div>
 
                                 <div class="flex flex-1 items-end justify-between pt-2">
                                     <p class="mt-1 text-sm font-medium text-gray-900">
-                                        <%=showtime.getPrice()%>
+                                        <%=showtime.getPrice()%> ETB (including tax)
                                     </p>
                                 </div>
                             </div>
@@ -189,15 +198,35 @@
                     <dl class="space-y-6 border-t border-gray-200 px-4 py-6 sm:px-6">
                         <div class="flex items-center justify-between">
                             <dt class="text-sm">Subtotal</dt>
-                            <dd class="text-sm font-medium text-gray-900">$64.00</dd>
+                            <dd class="text-sm font-medium text-gray-900">
+                                <%--                                price must be showtime.getPrice() / 1.15 to two decimal places--%>
+                                <%
+                                    String formattedResult = decimalFormat.format(showtime.getPrice() / 1.15);
+
+                                %>
+                                <%=
+                                Double.parseDouble(formattedResult)
+                                %>
+                                ETB
+                            </dd>
                         </div>
                         <div class="flex items-center justify-between">
-                            <dt class="text-sm">Taxes</dt>
-                            <dd class="text-sm font-medium text-gray-900">$5.52</dd>
+                            <dt class="text-sm">Taxes (15%)</dt>
+                            <dd class="text-sm font-medium text-gray-900">
+                                <%
+                                String secondFormatted = decimalFormat.format(showtime.getPrice() - (showtime.getPrice() / 1.15));
+                                %>
+                                <%=
+                                Double.parseDouble(secondFormatted)
+                                %>
+                                ETB
+                            </dd>
                         </div>
                         <div class="flex items-center justify-between border-t border-gray-200 pt-6">
                             <dt class="text-base font-medium">Total</dt>
-                            <dd class="text-base font-medium text-gray-900">$69.52</dd>
+                            <dd class="text-base font-medium text-gray-900">
+                                <%=showtime.getPrice()%> ETB
+                            </dd>
                         </div>
                     </dl>
 

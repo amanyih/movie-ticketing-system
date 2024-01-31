@@ -64,8 +64,10 @@
             return false;
         }
 
-        if (!phone || phone.length < 10){
-            phoneError.innerHTML = "Phone number must be at least 10 characters";
+        // phone number should be at least 10 characters and should not contain letters
+
+       if (!phone || phone.length < 10 || isNaN(phone)){
+            phoneError.innerHTML = "Please enter a valid phone number";
             resetErrorsExceptElement(phoneError);
             return false;
         }

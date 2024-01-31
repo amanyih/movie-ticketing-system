@@ -41,12 +41,14 @@
             </div>
 
 
-            <div
-                    class="text-white bg-blue-400 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 ">
-                <a href="/logout.jsp">
+            <a href="/logout.jsp">
+                <div
+                        class="text-white bg-blue-400 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 ">
+
                     Logout
-                </a>
-            </div>
+
+                </div>
+            </a>
 
         </div>
 
@@ -127,7 +129,7 @@
                             Total
                         </p>
                         <p class="text-xl font-bold text-gray-600">
-                            <%= booking.getShowtime().getPrice()%>;
+                            <%= booking.getShowtime().getPrice()%>
                         </p>
                     </div>
 
@@ -136,7 +138,7 @@
             <% } %>
         </div>
 
-        <%if(bookings.size() ==0 ) {%>
+        <%if (bookings.size() == 0) {%>
         <div class="bg-white p-8 rounded-2xl">
             <p class="text-3xl font-bold text-gray-600">
                 No Bookings

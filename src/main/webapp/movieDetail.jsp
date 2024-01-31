@@ -102,15 +102,7 @@
                             Genre
                         </p>
                         <p class="text-gray-500 text-xl">
-                            <%= movie
-                                    .
-                                    getGenre
-                                            (
-                                            )
-                                            .
-                                    getGenreName
-                                            (
-                                            ) %>
+                            <%= movie.getGenre().getGenreName() %>
                         </p>
                     </div>
                     <div class="bg-white p-4 px-8 flex flex-col items-center rounded-xl">
@@ -157,7 +149,7 @@
 
     <div style="background-color: #f7f7f7;" class="p-12 rounded-xl shadow-sm mt-12">
         <h2 class="text-gray-600 font-bold text-3xl">
-            Watch at
+            Schedules
         </h2>
 
         <div class="flex gap-8 pt-8">
@@ -212,7 +204,7 @@
 
                 <div class="flex gap-4">
                     <div class="text-gray-400 bg-gray-100 px-3 py-1 rounded-xl">
-                        Price   
+                        Price
                     </div>
                     <div class="text-gray-400 bg-gray-100 px-3 py-1 rounded-xl">
                         <%= showtime.getPrice()%> ETB

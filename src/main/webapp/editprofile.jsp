@@ -11,6 +11,7 @@
 %>
 <%
     User user = (User) request.getSession().getAttribute("user");
+    System.out.println("user in profile page + "+user);
 %>
 <form class="max-w-[90rem] mx-auto" method="post" action="/UpdateUserServlet">
 

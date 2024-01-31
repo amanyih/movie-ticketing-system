@@ -42,10 +42,10 @@
                 <p class="mt-6 text-lg leading-8 text-gray-300">Find your favorite movies, choose a cinema, select your
                     preferred seats, and book your tickets hassle-free.</p>
                 <div class="mt-10 flex items-center justify-center gap-x-6 lg:justify-start">
-                    <a href="#"
+                    <a href="/search"
                        class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white">Get
                         started</a>
-                    <a href="#" class="text-sm font-semibold leading-6 text-white">Learn more <span
+                    <a href="/about" class="text-sm font-semibold leading-6 text-white">Learn more <span
                             aria-hidden="true">→</span></a>
                 </div>
             </div>
@@ -97,11 +97,42 @@
                         your favorite movies and seats.
                     </dd>
                 </div>
+                <div class="relative pl-16">
+                    <dt class="text-base font-semibold leading-7 text-gray-900">
+                        <div class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
+                            <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M12 5v14M5 12h14M8.6 15.2l6.8-6.8"/>
+                            </svg>
+                        </div>
+                        Convenient Payments
+                    </dt>
+                    <dd class="mt-2 text-base leading-7 text-gray-600">Make hassle-free payments for your movie tickets
+                        using various payment methods.
+                    </dd>
+                </div>
+                <div class="relative pl-16">
+                    <dt class="text-base font-semibold leading-7 text-gray-900">
+                        <div class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600">
+                            <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M12 5v14M5 12h14M8.6 15.2l6.8-6.8"/>
+                            </svg>
+                        </div>
+                        Personalized Recommendations
+                    </dt>
+                    <dd class="mt-2 text-base leading-7 text-gray-600">Receive movie recommendations tailored to your
+                        preferences and watch history.
+                    </dd>
+                </div>
                 <!-- Add more points based on your features -->
             </dl>
         </div>
     </div>
 </div>
+
 <div class="bg-white py-24 sm:py-32">
     <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <dl class="grid grid-cols-1 gap-x-8 gap-y-16 text-center lg:grid-cols-3">

@@ -92,7 +92,7 @@
 
                     <div class="flex gap-4">
                         <div class="text-gray-400 bg-gray-100 px-3 py-1 rounded-xl">
-                            <%= showtime.getTheater().getShowtime() %>
+                            Price
                         </div>
                         <div class="text-gray-400 bg-gray-100 px-3 py-1 rounded-xl">
                             <%= showtime.getPrice()%>
